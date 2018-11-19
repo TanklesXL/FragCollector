@@ -1,8 +1,10 @@
 package manipulatefragranceitems
 
 import (
+	"bufio"
 	"fmt"
 	"log"
+	"os"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -33,17 +35,29 @@ func Search(search string) {
 			info := strings.TrimSpace(text[1])
 			result := newSearchResult(name, info, searchURL)
 			if strings.ToLower(name) == strings.ToLower(search) {
-				fmt.Print("MATCH FOUND: ")
-				fmt.Printf("%s	->	%s\n", result.Name, result.Info)
-				matchResult = result
-				BuildFragranceItem(matchResult.URL)
-				return
+				fmt.Print("A match was found! Is this what you were looking for?: ")
+				fmt.Printf("%s by %s\n> ", result.Name, result.Info)
+				scanner := bufio.NewScanner(os.Stdin)
+				for scanner.Scan() {
+					if scanner.Err() != nil {
+						log.Fatal(scanner.Err())
+					} else {
+						break
+					}
+				}
+				if scanner.Text() == "yes" || scanner.Text() == "y" {
+					matchResult = result
+					BuildFragranceItem(matchResult.URL)
+					fmt.Println("Yes Selected")
+					return
+				}
 			}
 			searchResults = append(searchResults, *result)
 		})
 	})
+	
 	if matchResult == nil {
-		fmt.Println("MATCH NOT FOUND, but here are your options:")
+		fmt.Println("I'm sorry, no match was found. Here are your options:")
 		for _, r := range searchResults {
 			fmt.Printf("%s	->	%s\n", r.Name, r.Info)
 		}
