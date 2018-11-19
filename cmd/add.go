@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"fmt"
+	FragranceItems "FragCollector/manipulatefragranceitems"
 
 	"github.com/spf13/cobra"
 )
@@ -23,23 +23,19 @@ import (
 // addCmd represents the add command
 var addCmd = &cobra.Command{
 	Use:   "add",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Add a fragrance to your collection",
+	Long:  `Find a fragrance from the BaseNotes database and add it (along with all of its relevant information) to your collection`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
+		FragranceItems.BuildFragranceItem(url)
 	},
 }
+var url string
 
 func init() {
 	rootCmd.AddCommand(addCmd)
 
 	// Here you will define your flags and configuration settings.
-
+	addCmd.Flags().StringVar(&url, "url", "", "URL of item on BaseNotes")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// addCmd.PersistentFlags().String("foo", "", "A help for foo")

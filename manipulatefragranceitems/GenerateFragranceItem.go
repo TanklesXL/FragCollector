@@ -1,4 +1,4 @@
-package main
+package manipulatefragranceftems
 
 import (
 	"fmt"
@@ -93,6 +93,8 @@ func handlePyramidStructure(text string) ([]string, NotesPyramid) {
 	pyramid.TopNotes = topNotesSlice
 	pyramid.HeartNotes = heartNotesSlice
 	pyramid.BaseNotes = baseNotesSlice
+
+	fmt.Printf("%v", flatList)
 	return flatList, pyramid
 }
 func trimSlices(slice []string) []string {
