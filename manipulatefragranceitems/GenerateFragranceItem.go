@@ -1,7 +1,6 @@
-package manipulatefragranceftems
+package manipulatefragranceitems
 
 import (
-	"fmt"
 	"log"
 	"strings"
 
@@ -58,13 +57,11 @@ func BuildFragranceItem(url string) FragranceItem {
 
 func handleFlatStructure(text string) []string {
 	notes := strings.Split(text, ",")
-	fmt.Println("FLAT")
 	notes = trimSlices(notes)
 	return notes
 }
 
 func handlePyramidStructure(text string) ([]string, NotesPyramid) {
-	fmt.Println("PYRAMID")
 
 	var flatList []string
 	var pyramid NotesPyramid
@@ -94,7 +91,6 @@ func handlePyramidStructure(text string) ([]string, NotesPyramid) {
 	pyramid.HeartNotes = heartNotesSlice
 	pyramid.BaseNotes = baseNotesSlice
 
-	fmt.Printf("%v", flatList)
 	return flatList, pyramid
 }
 func trimSlices(slice []string) []string {
