@@ -33,12 +33,13 @@ func Search(search string) {
 			info := strings.TrimSpace(text[1])
 			result := newSearchResult(name, info, searchURL)
 			if strings.ToLower(name) == strings.ToLower(search) {
-				fmt.Println("MATCH FOUND")
+				fmt.Print("MATCH FOUND: ")
 				fmt.Printf("%s	->	%s\n", result.Name, result.Info)
 				matchResult = result
-			} else {
-				searchResults = append(searchResults, *result)
+				BuildFragranceItem(matchResult.URL)
+				return
 			}
+			searchResults = append(searchResults, *result)
 		})
 	})
 	if matchResult == nil {
