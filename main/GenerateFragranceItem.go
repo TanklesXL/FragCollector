@@ -10,9 +10,9 @@ import (
 
 // FragranceItem type contains all notes in a pyramid (if applicable) and flat list of scent notes
 type FragranceItem struct {
-	Title       string
+	Name        string
 	Designer    string
-	ReleaseYear int
+	ReleaseYear string
 	FlatNotes   []string
 	Pyramid     NotesPyramid
 }
@@ -24,7 +24,7 @@ type NotesPyramid struct {
 	BaseNotes  []string
 }
 
-// BuildFragranceItem receives a URL and returns a FragranceItem with the corresponding information
+// BuildFragranceItem receives a URL (from basenotes fragrance directory) and returns a FragranceItem with the corresponding information
 func BuildFragranceItem(url string) FragranceItem {
 	var fragrance FragranceItem
 
@@ -33,11 +33,16 @@ func BuildFragranceItem(url string) FragranceItem {
 		log.Fatal(err)
 	}
 
+	header := doc.Find(".fragranceheading").Text()
+
 	//Get the name
+	fragrance.Name = strings.TrimSpace(strings.Split(header, "(")[0])
 
 	//Get the designer
+	fragrance.Designer = strings.TrimSpace(strings.TrimPrefix(strings.Split(header, ")")[1], " by "))
 
 	//Get the release year
+	fragrance.ReleaseYear = strings.TrimSpace(strings.Split(strings.Split(header, "(")[1], ")")[0])
 
 	//Get the notes
 	notesText := doc.Find(".notespyramid.notespyramidb").Text()
@@ -47,6 +52,7 @@ func BuildFragranceItem(url string) FragranceItem {
 	} else {
 		fragrance.FlatNotes = handleFlatStructure(notesText)
 	}
+
 	return fragrance
 }
 
@@ -63,7 +69,7 @@ func handlePyramidStructure(text string) ([]string, NotesPyramid) {
 	var flatList []string
 	var pyramid NotesPyramid
 	text = strings.TrimSpace(text)
-	topNotes := strings.Trim(strings.Split(text, "Heart Notes")[0], "Top Notes")
+	topNotes := strings.TrimPrefix(strings.Split(text, "Heart Notes")[0], "Top Notes")
 	topNotes = strings.TrimSpace(topNotes)
 
 	heartNotes := strings.Split(strings.Split(text, "Heart Notes")[1], "Base notes")[0]
