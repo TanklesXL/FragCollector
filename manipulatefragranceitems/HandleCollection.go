@@ -14,7 +14,8 @@ func AddToCollection(url string) bool {
 	if _, err := os.Stat("./Collection.json"); os.IsNotExist(err) {
 		f, err := os.Create("./Collection.json")
 		if err != nil {
-			panic(err)
+			fmt.Println("UNABLE TO CREATE THE JSON FILE")
+			os.Exit(0)
 		}
 		defer f.Close()
 	}
@@ -44,8 +45,10 @@ func collectionContainsFragrance(collection FragranceCollection, fragrance Fragr
 func readInCollection(path string) FragranceCollection {
 	jsonFile, e := os.Open(path)
 	if e != nil {
-		panic(e)
+		fmt.Println("PROBLEM OPENING THE JSON FILE")
+		os.Exit(0)
 	}
+	defer jsonFile.Close()
 	byteValue, _ := ioutil.ReadAll(jsonFile)
 	var currentCollection FragranceCollection
 	json.Unmarshal(byteValue, &currentCollection)
@@ -53,11 +56,12 @@ func readInCollection(path string) FragranceCollection {
 	return currentCollection
 }
 
-func writeOutCollection(path string ,currentCollection FragranceCollection) {
+func writeOutCollection(path string, currentCollection FragranceCollection) {
 	json, _ := json.Marshal(currentCollection)
 	err := ioutil.WriteFile(path, json, 0644)
 	if err != nil {
-		panic(err)
+		fmt.Println("PROBLEM WRITING TO THE JSON FILE")
+		os.Exit(0)
 	}
-	
+
 }

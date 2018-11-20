@@ -1,6 +1,8 @@
 package manipulatefragranceitems
 
 import (
+	"fmt"
+	"os"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -33,7 +35,8 @@ func BuildFragranceItem(url string) FragranceItem {
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		panic(err)
+		fmt.Println("PROBLEM ACCESSING THE BASENOTES PAGE: " + url)
+		os.Exit(0)
 	}
 
 	header := doc.Find(".fragranceheading").Text()

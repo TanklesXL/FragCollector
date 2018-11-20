@@ -22,7 +22,8 @@ func Search(search string) {
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		panic(err)
+		fmt.Println("PROBLEM SEARCHING BASENOTES (are you connected to the internet?")
+		os.Exit(0)
 	}
 	var searchResults []searchResult
 	var matchResult *searchResult
