@@ -18,31 +18,19 @@ func AddToCollection(url string) bool {
 		}
 		defer f.Close()
 	}
-	jsonFile, e := os.Open("./Collection.json")
-	if e != nil {
-		panic(e)
-	}
+
 	itemToAdd := BuildFragranceItem(url)
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	var currentCollection FragranceCollection
-	json.Unmarshal(byteValue, &currentCollection)
+	currentCollection := readInCollection("./Collection.json")
 
 	if !collectionContainsFragrance(currentCollection, itemToAdd) {
-
-		var collection FragranceCollection
-
-		collection.Fragrances = append(currentCollection.Fragrances, itemToAdd)
-
-		json, _ := json.Marshal(collection)
-		err := ioutil.WriteFile("./Collection.json", json, 0644)
-		if err != nil {
-			panic(err)
-		}
+		currentCollection.Fragrances = append(currentCollection.Fragrances, itemToAdd)
+		writeOutCollection("./Collection.json", currentCollection)
 		return true
 	}
 	return false
 }
+
 func collectionContainsFragrance(collection FragranceCollection, fragrance FragranceItem) bool {
 	for _, v := range collection.Fragrances {
 		if cmp.Equal(v, fragrance) {
@@ -51,4 +39,25 @@ func collectionContainsFragrance(collection FragranceCollection, fragrance Fragr
 		}
 	}
 	return false
+}
+
+func readInCollection(path string) FragranceCollection {
+	jsonFile, e := os.Open(path)
+	if e != nil {
+		panic(e)
+	}
+	byteValue, _ := ioutil.ReadAll(jsonFile)
+	var currentCollection FragranceCollection
+	json.Unmarshal(byteValue, &currentCollection)
+
+	return currentCollection
+}
+
+func writeOutCollection(path string ,currentCollection FragranceCollection) {
+	json, _ := json.Marshal(currentCollection)
+	err := ioutil.WriteFile(path, json, 0644)
+	if err != nil {
+		panic(err)
+	}
+	
 }
