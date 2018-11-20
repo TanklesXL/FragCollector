@@ -63,5 +63,22 @@ func writeOutCollection(path string, currentCollection FragranceCollection) {
 		fmt.Println("PROBLEM WRITING TO THE JSON FILE")
 		os.Exit(0)
 	}
+}
 
+// DisplayCollectionAlphabetical outputs the collection by fragrance in alphabetical order
+func DisplayCollectionAlphabetical() {
+
+	//Read the collection from the json file
+	collection := readInCollection("./Collection.json")
+
+	//Sort the collection
+
+	// output the collection in alphabetical order
+	fmt.Println()
+	fmt.Println("Here is your collection in alphabetical order by name")
+	fmt.Println("-----------------------------------------------------")
+	for i, f := range collection.Fragrances {
+		num := i + 1
+		fmt.Printf("%d: %s by %s\n", num, f.Name, f.House)
+	}
 }

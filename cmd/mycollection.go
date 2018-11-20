@@ -16,40 +16,36 @@ package cmd
 
 import (
 	FragranceItems "FragCollector/manipulatefragranceitems"
-	"fmt"
 
 	"github.com/spf13/cobra"
 )
 
-// addCmd represents the add command
-var addCmd = &cobra.Command{
-	Use:   "add",
-	Short: "Add a fragrance to your collection",
-	Long:  `Find a fragrance from the BaseNotes database and add it (along with all of its relevant information) to your collection`,
-	Run: func(cmd *cobra.Command, args []string) {
-		if url != "" {
-			FragranceItems.AddToCollection(url)
-		} else if name != "" {
-			FragranceItems.Search(name)
-		} else {
-			fmt.Println("Please use either --name or --url")
-		}
+// mycollectionCmd represents the mycollection command
+var mycollectionCmd = &cobra.Command{
+	Use:   "mycollection",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
 
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		FragranceItems.DisplayCollectionAlphabetical()
 	},
 }
-var url string
-var name string
+var alphabetical bool
 
 func init() {
-	rootCmd.AddCommand(addCmd)
+	rootCmd.AddCommand(mycollectionCmd)
+
 	// Here you will define your flags and configuration settings.
-	addCmd.Flags().StringVarP(&url, "url", "u", "", "URL of item on BaseNotes")
-	addCmd.Flags().StringVarP(&name, "name", "n", "", "Name of fragrance to search on BaseNotes")
+	mycollectionCmd.Flags().BoolP("alpha", "a", true, "Show collection in alphabetical order by name")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// mycollectionCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// addCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// mycollectionCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
