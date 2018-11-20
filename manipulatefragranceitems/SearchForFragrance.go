@@ -2,8 +2,8 @@ package manipulatefragranceitems
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
-	"log"
 	"os"
 	"strings"
 
@@ -23,7 +23,7 @@ func Search(search string) {
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 	var searchResults []searchResult
 	var matchResult *searchResult
@@ -37,18 +37,18 @@ func Search(search string) {
 			result := newSearchResult(name, info, searchURL)
 
 			if strings.ToLower(name) == strings.ToLower(search) {
-				fmt.Print("A match was found! Is this what you were looking for?: ")
+				fmt.Print("A match was found! Is this what you were looking for?  ->  ")
 				fmt.Printf("%s by %s\n> ", result.Name, result.Info)
 				scanner := bufio.NewScanner(os.Stdin)
 				scanner.Scan()
 				if scanner.Err() != nil {
-					log.Fatal(scanner.Err())
+					panic(scanner.Err())
 				}
 
-				if scanner.Text() == "yes" || scanner.Text() == "y" {
+				if scanner.Text() == "yes" || scanner.Text() == "y" && result != nil {
 					matchResult = result
-					BuildFragranceItem(matchResult.URL)
-					fmt.Println("Yes Selected")
+					(json.Marshal(BuildFragranceItem(matchResult.URL)))
+					fmt.Printf("%s has been added to your collection", matchResult.Name)
 					return
 				}
 			}

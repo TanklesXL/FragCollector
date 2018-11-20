@@ -14,7 +14,10 @@
 
 package main
 
-import "FragCollector/cmd"
+import (
+	"FragCollector/cmd"
+	"os"
+)
 
 //pyr
 const adgp string = "http://www.basenotes.net/ID26145389.html"
@@ -25,5 +28,13 @@ const btf string = "http://www.basenotes.net/ID26147432.html"
 const pradaCandy string = "http://www.basenotes.net/ID26132465.html"
 
 func main() {
+	if _, err := os.Stat("/path/to/whatever"); os.IsNotExist(err) {
+		f, err := os.Create("./Collection.json")
+		if err != nil {
+			panic(err)
+		}
+		defer f.Close()
+	}
+
 	cmd.Execute()
 }

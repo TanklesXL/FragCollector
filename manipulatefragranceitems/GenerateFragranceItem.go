@@ -1,7 +1,6 @@
 package manipulatefragranceitems
 
 import (
-	"log"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
@@ -29,7 +28,7 @@ func BuildFragranceItem(url string) FragranceItem {
 
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	header := doc.Find(".fragranceheading").Text()

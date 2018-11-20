@@ -4,3 +4,7 @@
 debug
 
 main\.exe
+
+Collection\.json
+
+*.exe
