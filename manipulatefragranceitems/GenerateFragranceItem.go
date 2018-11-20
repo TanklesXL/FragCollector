@@ -6,6 +6,11 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+// FragranceCollection is used to hold a collection of FragranceItems
+type FragranceCollection struct {
+	Fragrances []FragranceItem
+}
+
 // FragranceItem type contains all notes in a pyramid (if applicable) and flat list of scent notes
 type FragranceItem struct {
 	Name        string

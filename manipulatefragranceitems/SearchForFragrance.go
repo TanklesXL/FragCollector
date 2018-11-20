@@ -2,7 +2,6 @@ package manipulatefragranceitems
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
 	"os"
 	"strings"
@@ -47,8 +46,9 @@ func Search(search string) {
 
 				if scanner.Text() == "yes" || scanner.Text() == "y" && result != nil {
 					matchResult = result
-					(json.Marshal(BuildFragranceItem(matchResult.URL)))
-					fmt.Printf("%s has been added to your collection", matchResult.Name)
+					if AddToCollection(matchResult.URL) {
+						fmt.Printf("%s has been added to your collection", matchResult.Name)
+					}
 					return
 				}
 			}
