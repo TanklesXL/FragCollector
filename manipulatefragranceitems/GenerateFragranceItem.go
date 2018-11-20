@@ -10,14 +10,14 @@ import (
 // FragranceItem type contains all notes in a pyramid (if applicable) and flat list of scent notes
 type FragranceItem struct {
 	Name        string
-	Designer    string
+	House       string
 	ReleaseYear string
 	FlatNotes   []string
-	Pyramid     NotesPyramid
+	Pyramid     notesPyramid
 }
 
-// NotesPyramid contains the pyramid
-type NotesPyramid struct {
+// notesPyramid contains the pyramid
+type notesPyramid struct {
 	TopNotes   []string
 	HeartNotes []string
 	BaseNotes  []string
@@ -34,14 +34,7 @@ func BuildFragranceItem(url string) FragranceItem {
 
 	header := doc.Find(".fragranceheading").Text()
 
-	//Get the name
-	fragrance.Name = strings.TrimSpace(strings.Split(header, "(")[0])
-
-	//Get the designer
-	fragrance.Designer = strings.TrimSpace(strings.TrimPrefix(strings.Split(header, ")")[1], " by "))
-
-	//Get the release year
-	fragrance.ReleaseYear = strings.TrimSpace(strings.Split(strings.Split(header, "(")[1], ")")[0])
+	fragrance.Name, fragrance.House, fragrance.ReleaseYear = getInfoFromHeader(header)
 
 	//Get the notes
 	notesText := doc.Find(".notespyramid.notespyramidb").Text()
@@ -55,16 +48,30 @@ func BuildFragranceItem(url string) FragranceItem {
 	return fragrance
 }
 
+func getInfoFromHeader(header string) (string, string, string) {
+
+	var name, house, releaseYear string
+
+	if strings.Contains(header, ") (") {
+		name = strings.TrimSpace(strings.Split(header, ") (")[0] + ")")
+		house = strings.TrimSpace(strings.TrimPrefix(strings.Split(header, ")")[2], " by "))
+		releaseYear = strings.TrimSpace(strings.Split(strings.Split(header, ") (")[1], ")")[0])
+	} else {
+		name = strings.TrimSpace(strings.Split(header, "(")[0])
+		house = strings.TrimSpace(strings.TrimPrefix(strings.Split(header, ")")[1], " by "))
+		releaseYear = strings.TrimSpace(strings.Split(strings.Split(header, "(")[1], ")")[0])
+	}
+	return name, house, releaseYear
+}
+
 func handleFlatStructure(text string) []string {
 	notes := strings.Split(text, ",")
 	notes = trimSlices(notes)
 	return notes
 }
 
-func handlePyramidStructure(text string) ([]string, NotesPyramid) {
+func handlePyramidStructure(text string) ([]string, notesPyramid) {
 
-	var flatList []string
-	var pyramid NotesPyramid
 	text = strings.TrimSpace(text)
 	topNotes := strings.TrimPrefix(strings.Split(text, "Heart Notes")[0], "Top Notes")
 	topNotes = strings.TrimSpace(topNotes)
@@ -85,12 +92,9 @@ func handlePyramidStructure(text string) ([]string, NotesPyramid) {
 	baseNotesSlice = trimSlices(baseNotesSlice)
 
 	//create returned items
-	flatList = append(topNotesSlice, heartNotesSlice...)
+	flatList := append(topNotesSlice, heartNotesSlice...)
 	flatList = append(flatList, baseNotesSlice...)
-	pyramid.TopNotes = topNotesSlice
-	pyramid.HeartNotes = heartNotesSlice
-	pyramid.BaseNotes = baseNotesSlice
-
+	pyramid := notesPyramid{topNotesSlice, heartNotesSlice, baseNotesSlice}
 	return flatList, pyramid
 }
 func trimSlices(slice []string) []string {
