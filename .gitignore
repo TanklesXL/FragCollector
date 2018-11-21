@@ -8,3 +8,5 @@ main\.exe
 Collection\.json
 
 *.exe
+
+CollectionFiles/
