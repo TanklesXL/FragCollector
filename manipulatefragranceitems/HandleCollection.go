@@ -11,12 +11,12 @@ import (
 )
 
 // PATH is the location of the directory where the jsons are stored
-const PATH string = "./CollectionFiles/"
+const PATH string = "C:/Users/Robert/go/src/FragCollector/CollectionFiles/"
 
 // MASTER is the master collecion filepath
 const MASTER string = PATH + "Master.json"
 
-// ALBPHA_N is the filepath to the json where the collection is ordered alphabetically by name
+// ALPHA is the filepath to the json where the collection is ordered alphabetically by name
 const ALPHA string = PATH + "Alphabetical.json"
 
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
