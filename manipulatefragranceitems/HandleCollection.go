@@ -74,7 +74,7 @@ func writeOutCollection(filePath string, currentCollection FragranceCollection) 
 	json, _ := json.Marshal(currentCollection)
 	err := ioutil.WriteFile(filePath, json, 0644)
 	if err != nil {
-		fmt.Println("PROBLEM WRITING TO THE JSON FILE")
+		fmt.Println("PROBLEM WRITING TO THE JSON FILE: " + filePath)
 		os.Exit(0)
 	}
 }
@@ -84,7 +84,7 @@ func Synchronise() {
 	currentCollection := readInCollection(MASTER)
 	generateAlphabetical(currentCollection)
 
-	fmt.Println("***SYNCHRONISE EXECUTED***")
+	fmt.Println("\n***SYNCHRONIZE EXECUTED***")
 
 }
 func generateAlphabetical(collection FragranceCollection) {

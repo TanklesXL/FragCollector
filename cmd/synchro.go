@@ -20,9 +20,9 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// synchroniseCmd represents the synchronise command
-var synchroniseCmd = &cobra.Command{
-	Use:   "synchronise",
+// synchroCmd represents the synchro command
+var synchroCmd = &cobra.Command{
+	Use:   "synchro",
 	Short: "A brief description of your command",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
@@ -36,15 +36,15 @@ to quickly create a Cobra application.`,
 }
 
 func init() {
-	rootCmd.AddCommand(synchroniseCmd)
+	rootCmd.AddCommand(synchroCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// synchroniseCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// synchroCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// synchroniseCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// synchroCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
