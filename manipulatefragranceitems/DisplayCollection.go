@@ -10,11 +10,12 @@ func DisplayCollectionAlphabetical() {
 
 	// output the collection in alphabetical order
 	fmt.Println("\nHere is your collection in alphabetical order by name")
-	fmt.Println("-----------------------------------------------------")
+	fmt.Println("-------------------------------------------------------")
 	for i, f := range collection.Fragrances {
 		num := i + 1
 		fmt.Printf("%d: %s by %s\n", num, f.Name, f.House)
 	}
+	fmt.Println("-------------------------------------------------------")
 }
 
 // DisplayCollectionAlphabeticalByBrand outputs the collection by fragrance in alphabetical order by fragrance houae and then by name
@@ -27,7 +28,7 @@ func DisplayCollectionAlphabeticalByBrand() {
 	var currentHouse string
 
 	fmt.Println("\nHere is your collection in alphabetical order by brand")
-	fmt.Println("-----------------------------------------------------")
+	fmt.Println("-------------------------------------------------------")
 
 	numInGroup := 1
 	for _, f := range collection.Fragrances {
@@ -40,4 +41,5 @@ func DisplayCollectionAlphabeticalByBrand() {
 		fmt.Printf("\t%d -> %s\n", numInGroup, f.Name)
 		numInGroup++
 	}
+	fmt.Println("-------------------------------------------------------")
 }
