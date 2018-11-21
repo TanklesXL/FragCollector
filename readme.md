@@ -36,7 +36,7 @@ Fragrances can be added to your collection via their name or the url for their e
 
 To add a fragrance to your collection, you simply need to call the add command with the name of the fragrance you would like to search for. While the command is case-insensitive, try to be as close as possible for a search, and to add the  fragrance you will need to type it's name correctly.
 
-For example, assuming that we want to add Aventus by the fragrance house Creed tp our collection, we would do (***note***: a name with multiple words will need to be surrounded by brackets i.e. "Interlude Man", i
+For example, assuming that we want to add Aventus by the fragrance house Creed tp our collection, we would do (***note***: a name with multiple words will need to be surrounded by brackets i.e. "Interlude Man")
 
 ```
 FragranceCollector add -n Aventus

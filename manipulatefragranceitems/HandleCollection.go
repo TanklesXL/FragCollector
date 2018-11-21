@@ -17,7 +17,10 @@ const PATH string = "C:/Users/Robert/go/src/FragCollector/CollectionFiles/"
 const MASTER string = PATH + "Master.json"
 
 // ALPHA is the filepath to the json where the collection is ordered alphabetically by name
-const ALPHA string = PATH + "Alphabetical.json"
+const ALPHA string = PATH + "AlphabeticalName.json"
+
+// BRAND is the filepath to the json where the collection is ordered alphabetically by fragrance house
+const BRAND string = PATH + "AlphabeticalBrand.json"
 
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
 func AddToCollection(url string) bool {
@@ -96,6 +99,8 @@ func Synchronise() {
 	currentCollection := readInCollection(MASTER)
 	generateAlphabeticalByName(currentCollection)
 
+	currentCollection = readInCollection(ALPHA)
+	generateAlphabeticalByBrand(currentCollection)
 	fmt.Println("***SYNCHRONISE EXECUTED***")
 
 }
@@ -112,5 +117,22 @@ func generateAlphabeticalByName(collection FragranceCollection) {
 	//Sort the collection
 	sort.Slice(collection.Fragrances, func(i, j int) bool { return collection.Fragrances[i].Name < collection.Fragrances[j].Name })
 
-	writeOutCollection(PATH+"Alphabetical.json", collection)
+	writeOutCollection(ALPHA, collection)
+}
+
+func generateAlphabeticalByBrand(collection FragranceCollection) {
+
+	if _, err := os.Stat(BRAND); os.IsNotExist(err) {
+		f, err := os.Create(BRAND)
+		if err != nil {
+			fmt.Println("Alphabetical by brand: UNABLE TO CREATE THE JSON FILE")
+			os.Exit(0)
+		}
+		defer f.Close()
+	}
+
+	//Sort the collection
+	sort.Slice(collection.Fragrances, func(i, j int) bool { return collection.Fragrances[i].House < collection.Fragrances[j].House })
+
+	writeOutCollection(BRAND, collection)
 }
