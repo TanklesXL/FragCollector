@@ -59,7 +59,7 @@ func collectionContainsFragrance(collection FragranceCollection, fragrance Fragr
 func readInCollection(filePath string) FragranceCollection {
 	jsonFile, e := os.Open(filePath)
 	if e != nil {
-		fmt.Println("PROBLEM OPENING THE JSON FILE")
+		fmt.Println("PROBLEM reading THE JSON FILE: " + filePath)
 		os.Exit(0)
 	}
 	defer jsonFile.Close()
@@ -79,32 +79,16 @@ func writeOutCollection(filePath string, currentCollection FragranceCollection) 
 	}
 }
 
-// DisplayCollectionAlphabetical outputs the collection by fragrance in alphabetical order
-func DisplayCollectionAlphabetical() {
-
-	//Read the collection from the json file
-	collection := readInCollection(ALPHA)
-
-	// output the collection in alphabetical order
-	fmt.Println("\nHere is your collection in alphabetical order by name")
-	fmt.Println("-----------------------------------------------------")
-	for i, f := range collection.Fragrances {
-		num := i + 1
-		fmt.Printf("%d: %s by %s\n", num, f.Name, f.House)
-	}
-}
-
 // Synchronise generates the JSON for the other views, built off of master.json
 func Synchronise() {
 	currentCollection := readInCollection(MASTER)
-	generateAlphabeticalByName(currentCollection)
+	generateAlphabetical(currentCollection)
 
-	currentCollection = readInCollection(ALPHA)
-	generateAlphabeticalByBrand(currentCollection)
 	fmt.Println("***SYNCHRONISE EXECUTED***")
 
 }
-func generateAlphabeticalByName(collection FragranceCollection) {
+func generateAlphabetical(collection FragranceCollection) {
+	//Alphabetical by name
 	if _, err := os.Stat(ALPHA); os.IsNotExist(err) {
 		f, err := os.Create(ALPHA)
 		if err != nil {
@@ -114,13 +98,11 @@ func generateAlphabeticalByName(collection FragranceCollection) {
 		defer f.Close()
 	}
 
-	//Sort the collection
+	// Sort by name
 	sort.Slice(collection.Fragrances, func(i, j int) bool { return collection.Fragrances[i].Name < collection.Fragrances[j].Name })
 
+	//Alphabetical by brand and by name
 	writeOutCollection(ALPHA, collection)
-}
-
-func generateAlphabeticalByBrand(collection FragranceCollection) {
 
 	if _, err := os.Stat(BRAND); os.IsNotExist(err) {
 		f, err := os.Create(BRAND)
@@ -131,7 +113,7 @@ func generateAlphabeticalByBrand(collection FragranceCollection) {
 		defer f.Close()
 	}
 
-	//Sort the collection
+	// Sort by brand
 	sort.Slice(collection.Fragrances, func(i, j int) bool { return collection.Fragrances[i].House < collection.Fragrances[j].House })
 
 	writeOutCollection(BRAND, collection)
