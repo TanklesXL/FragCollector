@@ -4,7 +4,7 @@ A simple and convenient CLI written in Go for managing your fragrance collection
 
 This application was built using Cobra CLI.
 
-Because all fragrance information is scraped from the directory on www.basenotes.net/fragrancedirctory, adding new fragrances will require an internet collection, although viewing/filtering your existing collection does not.
+Because all fragrance information is scraped from the directory on www.basenotes.net/fragrancedirectory, adding new fragrances will require an internet collection, although viewing/filtering your existing collection does not.
 
 
 
@@ -39,6 +39,6 @@ To add a fragrance to your collection, you simply need to call the add command w
 For example, assuming that we want to add Aventus by the fragrance house Creed tp our collection, we would do (***note***: a name with multiple words will need to be surrounded by brackets i.e. "Interlude Man")
 
 ```
-FragranceCollector add -n Aventus
+FragCollector add -n Aventus
 ```
 
