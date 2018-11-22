@@ -24,6 +24,15 @@ const NOTES string = PATH + "NoteBreakdown.json"
 
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
 func AddToCollection(url string) bool {
+
+	if _, err := os.Stat(PATH); os.IsNotExist(err) {
+		err := os.Mkdir(PATH, os.FileMode(0522))
+		if err != nil {
+			fmt.Println("UNABLE TO CREATE THE DIRECTORY")
+			os.Exit(0)
+		}
+	}
+
 	if _, err := os.Stat(MASTER); os.IsNotExist(err) {
 		f, err := os.Create(MASTER)
 		if err != nil {
