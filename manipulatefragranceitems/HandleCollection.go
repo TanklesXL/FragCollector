@@ -25,22 +25,9 @@ const NOTES string = PATH + "NoteBreakdown.json"
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
 func AddToCollection(url string) bool {
 
-	if _, err := os.Stat(PATH); os.IsNotExist(err) {
-		err := os.Mkdir(PATH, os.FileMode(0522))
-		if err != nil {
-			fmt.Println("UNABLE TO CREATE THE DIRECTORY")
-			os.Exit(0)
-		}
-	}
-
-	if _, err := os.Stat(MASTER); os.IsNotExist(err) {
-		f, err := os.Create(MASTER)
-		if err != nil {
-			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE")
-			os.Exit(0)
-		}
-		f.Close()
-	}
+	//ensure that the directory and master both exist, otherwise make them
+	makeDir()
+	makeMaster()
 
 	itemToAdd := BuildFragranceItem(url)
 
@@ -54,6 +41,26 @@ func AddToCollection(url string) bool {
 		return true
 	}
 	return false
+}
+func makeDir() {
+	if _, err := os.Stat(PATH); os.IsNotExist(err) {
+		err := os.Mkdir(PATH, os.FileMode(0522))
+		if err != nil {
+			fmt.Println("UNABLE TO CREATE THE DIRECTORY")
+			os.Exit(0)
+		}
+	}
+}
+
+func makeMaster() {
+	if _, err := os.Stat(MASTER); os.IsNotExist(err) {
+		f, err := os.Create(MASTER)
+		if err != nil {
+			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE")
+			os.Exit(0)
+		}
+		f.Close()
+	}
 }
 
 func collectionContainsFragrance(collection FragranceCollection, fragrance FragranceItem) bool {
