@@ -97,8 +97,6 @@ func Synchronise() {
 	currentCollection := ReadInCollection(MASTER)
 	generateAlphabeticalByBrand(currentCollection)
 	generateByNote(currentCollection)
-	fmt.Println("\n***SYNCHRONIZE EXECUTED***")
-
 }
 func generateAlphabetical(collection FragranceCollection) {
 	//Alphabetical by name

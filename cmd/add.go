@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	FragranceItems "FragCollector/manipulatefragranceitems"
+	mfi "FragCollector/manipulatefragranceitems"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -28,23 +28,27 @@ var addCmd = &cobra.Command{
 	Long:  `Find a fragrance from the BaseNotes database and add it (along with all of its relevant information) to your collection`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if url != "" {
-			FragranceItems.AddToCollection(url)
+			mfi.AddToCollection(url)
+		} else if house != "" && name != "" {
+			mfi.SearchByHouse(house, name)
 		} else if name != "" {
-			FragranceItems.Search(name)
+			mfi.SearchByName(name)
 		} else {
-			fmt.Println("Please use either --name or --url")
+			fmt.Println("Please use either --name/-n, --url/-u or the combination of --name/-n and --house/-n together")
 		}
 
 	},
 }
 var url string
 var name string
+var house string
 
 func init() {
 	rootCmd.AddCommand(addCmd)
 	// Here you will define your flags and configuration settings.
 	addCmd.Flags().StringVarP(&url, "url", "u", "", "URL of item on BaseNotes")
 	addCmd.Flags().StringVarP(&name, "name", "n", "", "Name of fragrance to search on BaseNotes")
+	addCmd.Flags().StringVar(&house, "house", "", "Fragrance house to start search with")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// addCmd.PersistentFlags().String("foo", "", "A help for foo")
