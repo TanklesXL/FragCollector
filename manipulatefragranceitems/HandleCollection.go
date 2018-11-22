@@ -48,6 +48,7 @@ func AddToCollection(url string) bool {
 
 	if !collectionContainsFragrance(currentCollection, itemToAdd) {
 		currentCollection.Fragrances = append(currentCollection.Fragrances, itemToAdd)
+		fmt.Printf("%s has been added to your collection.\n", itemToAdd.Name)
 		generateAlphabetical(currentCollection)
 		Synchronise()
 		return true
