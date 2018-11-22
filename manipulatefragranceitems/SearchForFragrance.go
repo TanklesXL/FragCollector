@@ -122,7 +122,6 @@ func SearchByHouse(house, name string) {
 		fmt.Println("PROBLEM SEARCHING BASENOTES (are you connected to the internet?")
 		os.Exit(0)
 	}
-	var houses []string
 	houseFound := false
 	selection := doc.Find("select").First()
 	if attribute, _ := selection.Attr("id"); attribute == "house" {
@@ -137,9 +136,6 @@ func SearchByHouse(house, name string) {
 					Search(houseBaseURL+id, name)
 					houseFound = true
 					return
-				}
-				if !houseFound {
-					houses = append(houses, houseFromWeb)
 				}
 			}
 		})
