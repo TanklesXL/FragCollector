@@ -10,16 +10,24 @@ import (
 
 // FragranceCollection is used to hold a collection of FragranceItems
 type FragranceCollection struct {
-	Fragrances []FragranceItem
+	MasterCollection  map[string]FragranceItem
+	FragrancesByName  []BasicInfo
+	FragrancesByHouse []BasicInfo
+	Notes             map[string][]BasicInfo
 }
 
-// FragranceItem type contains all notes in a pyramid (if applicable) and flat list of scent notes
+// FragranceItem type contains fragrance info and all notes in a pyramid (if applicable) and flat list of scent notes
 type FragranceItem struct {
+	BasicInfo BasicInfo
+	FlatNotes []string
+	Pyramid   notesPyramid
+}
+
+// BasicInfo of a fragrance Item will contain only it's name, house and release year
+type BasicInfo struct {
 	Name        string
 	House       string
 	ReleaseYear string
-	FlatNotes   []string
-	Pyramid     notesPyramid
 }
 
 // notesPyramid contains the pyramid
@@ -41,7 +49,7 @@ func BuildFragranceItem(url string) FragranceItem {
 
 	header := doc.Find(".fragranceheading").Text()
 
-	fragrance.Name, fragrance.House, fragrance.ReleaseYear = getInfoFromHeader(header)
+	fragrance.BasicInfo.Name, fragrance.BasicInfo.House, fragrance.BasicInfo.ReleaseYear = getInfoFromHeader(header)
 
 	//Get the notes
 	notesText := doc.Find(".notespyramid.notespyramidb").Text()
