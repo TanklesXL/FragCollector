@@ -9,10 +9,15 @@ import (
 )
 
 // PATH is the location of the directory where the jsons are stored
-const PATH string = "C:/Users/Robert/go/src/FragCollector/CollectionFile/"
+const PATH string = "C:/Users/Robert/go/src/FragCollector/"
 
 // MASTER is the master collecion filepath, when an item is added, master is regenerated in alphabetical order
-const MASTER string = PATH + "Master.json"
+const MASTER string = PATH + "CollectionFile/Master.json"
+
+/*
+EXPORTED FUNCTIONS
+These are used by either a command or a display function
+*/
 
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
 func AddToCollection(url string) bool {
@@ -25,7 +30,7 @@ func AddToCollection(url string) bool {
 
 	currentCollection := ReadInCollection(MASTER)
 
-	if !collectionContainsFragrance(currentCollection, itemToAdd) {
+	if !collectionContainsFragrance(currentCollection, itemToAdd.BasicInfo.Name) {
 		if len(currentCollection.MasterCollection) == 0 {
 			currentCollection.MasterCollection = make(map[string]FragranceItem)
 		}
@@ -36,36 +41,30 @@ func AddToCollection(url string) bool {
 		currentCollection.Notes = generateByNote(currentCollection)
 		writeOutCollection(MASTER, currentCollection)
 		return true
+	} else {
+		fmt.Println("This fragrance is already in your collection")
+		return false
 	}
-	fmt.Println("This fragrance is already in your collection")
-	return false
 }
-func makeDir() {
-	if _, err := os.Stat(PATH); os.IsNotExist(err) {
-		err := os.Mkdir(PATH, os.FileMode(0522))
-		if err != nil {
-			fmt.Println("UNABLE TO CREATE THE DIRECTORY")
-			os.Exit(0)
+
+// RemoveFromCollection takes the name of the fragrance to remove, removes it from the collection and then regenerated the json file
+func RemoveFromCollection(name string) {
+	currentCollection := ReadInCollection(MASTER)
+
+	if collectionContainsFragrance(currentCollection, name) {
+		if len(currentCollection.MasterCollection) == 0 {
+			currentCollection.MasterCollection = make(map[string]FragranceItem)
 		}
-	}
-}
-
-func makeMaster() {
-	if _, err := os.Stat(MASTER); os.IsNotExist(err) {
-		f, err := os.Create(MASTER)
-		if err != nil {
-			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE")
-			os.Exit(0)
-		}
-		defer f.Close()
-		writeOutCollection(MASTER, *new(FragranceCollection))
+		delete(currentCollection.MasterCollection, name)
+		fmt.Printf("%s has been removed from your collection.\n", name)
+		currentCollection.FragrancesByName = generateAlphabetical(currentCollection)
+		currentCollection.FragrancesByHouse = generateAlphabeticalByBrand(currentCollection)
+		currentCollection.Notes = generateByNote(currentCollection)
+		writeOutCollection(MASTER, currentCollection)
+	} else {
+		fmt.Println("This fragrance is not in your collection")
 	}
 
-}
-
-func collectionContainsFragrance(collection FragranceCollection, fragrance FragranceItem) bool {
-	_, exists := collection.MasterCollection[fragrance.BasicInfo.Name]
-	return exists
 }
 
 // ReadInCollection reads a file and outputs a FragranceCollection
@@ -90,6 +89,34 @@ func ReadInCollection(filePath string) FragranceCollection {
 	json.Unmarshal(byteValue, &currentCollection)
 
 	return currentCollection
+}
+
+func makeDir() {
+	if _, err := os.Stat(PATH); os.IsNotExist(err) {
+		err := os.Mkdir(PATH, os.FileMode(0522))
+		if err != nil {
+			fmt.Println("UNABLE TO CREATE THE DIRECTORY")
+			os.Exit(0)
+		}
+	}
+}
+
+func makeMaster() {
+	if _, err := os.Stat(MASTER); os.IsNotExist(err) {
+		f, err := os.Create(MASTER)
+		if err != nil {
+			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE")
+			os.Exit(0)
+		}
+		defer f.Close()
+		writeOutCollection(MASTER, *new(FragranceCollection))
+	}
+
+}
+
+func collectionContainsFragrance(collection FragranceCollection, name string) bool {
+	_, exists := collection.MasterCollection[name]
+	return exists
 }
 
 func writeOutCollection(filePath string, currentCollection FragranceCollection) {
