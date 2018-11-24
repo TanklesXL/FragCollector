@@ -29,26 +29,27 @@ var addCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		if url != "" {
 			mfi.AddToCollection(url)
-		} else if house != "" && name != "" {
-			mfi.SearchByHouse(house, name)
+		} else if brand != "" && name != "" {
+			mfi.SearchByHouse(brand, name)
 		} else if name != "" {
 			mfi.SearchByName(name)
 		} else {
-			fmt.Println("Please use either --name/-n, --url/-u or the combination of --name/-n and --house/-n together")
+			fmt.Println("Please use either --name/-n, --url/-u or the combination of --name/-n and --brand/-b together")
 		}
 
 	},
 }
+
 var url string
 var name string
-var house string
+var brand string
 
 func init() {
 	rootCmd.AddCommand(addCmd)
 	// Here you will define your flags and configuration settings.
-	addCmd.Flags().StringVarP(&url, "url", "u", "", "URL of item on BaseNotes")
+	addCmd.Flags().StringVarP(&url, "url", "u", "", "URL of the item on BaseNotes")
 	addCmd.Flags().StringVarP(&name, "name", "n", "", "Name of fragrance to search on BaseNotes")
-	addCmd.Flags().StringVar(&house, "house", "", "Fragrance house to start search with")
+	addCmd.Flags().StringVarP(&brand, "brand", "b", "", "Fragrance house to start search with")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// addCmd.PersistentFlags().String("foo", "", "A help for foo")

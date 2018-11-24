@@ -1,7 +1,10 @@
 package display
 
-import "fmt"
-import mfi "FragCollector/manipulatefragranceitems"
+import (
+	mfi "FragCollector/manipulatefragranceitems"
+	"fmt"
+	"sort"
+)
 
 var readInCollection = mfi.ReadInCollection
 
@@ -18,7 +21,7 @@ func CollectionAlphabetical() {
 		num := i + 1
 		fmt.Printf("%d: %s by %s\n", num, f.Name, f.House)
 	}
-	fmt.Println("\n-------------------------------------------------------")
+	fmt.Println("-------------------------------------------------------")
 }
 
 // CollectionAlphabeticalByBrand outputs the collection by fragrance in alphabetical order by fragrance houae and then by name
@@ -39,9 +42,9 @@ func CollectionAlphabeticalByBrand() {
 			currentHouse = f.House
 			fmt.Printf("\n%s:\n", currentHouse)
 		}
-		fmt.Printf("\t-> %s\n", f.Name)
+		fmt.Printf("\t%s\n", f.Name)
 	}
-	fmt.Println("\n-------------------------------------------------------")
+	fmt.Println("-------------------------------------------------------")
 }
 
 // CollectionNotes displays the collection broken down by its notes
@@ -49,12 +52,19 @@ func CollectionNotes() {
 	notesMap := readInCollection(mfi.MASTER).Notes
 	fmt.Println("\nHere is your collection broken down by scent notes")
 	fmt.Println("-------------------------------------------------------")
-	for note, frags := range notesMap {
-		fmt.Printf("\n%s:\n", note)
-		for i, frag := range frags {
-			fmt.Printf("\t%d -> %s\n", i+1, frag)
-		}
+	var noteList []string
+	for note := range notesMap {
+		noteList = append(noteList, note)
 	}
 
-	fmt.Println("\n-------------------------------------------------------")
+	sort.Slice(noteList, func(i, j int) bool { return noteList[i] < noteList[j] })
+
+	for _, note := range noteList {
+		frags := notesMap[note]
+		fmt.Printf("\n%s:\n", note)
+		for _, frag := range frags {
+			fmt.Printf("\t%s by %s \n", frag.Name, frag.House)
+		}
+	}
+	fmt.Println("-------------------------------------------------------")
 }

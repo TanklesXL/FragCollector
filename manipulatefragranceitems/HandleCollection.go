@@ -1,18 +1,20 @@
 package manipulatefragranceitems
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"sort"
+	"strconv"
 )
 
 // PATH is the location of the directory where the jsons are stored
-const PATH string = "C:/Users/Robert/go/src/FragCollector/"
+const PATH string = "C:/Users/Robert/go/src/FragCollector/CollectionFile/"
 
 // MASTER is the master collecion filepath, when an item is added, master is regenerated in alphabetical order
-const MASTER string = PATH + "CollectionFile/Master.json"
+const MASTER string = PATH + "Master.json"
 
 /*
 EXPORTED FUNCTIONS
@@ -35,36 +37,43 @@ func AddToCollection(url string) bool {
 			currentCollection.MasterCollection = make(map[string]FragranceItem)
 		}
 		currentCollection.MasterCollection[itemToAdd.BasicInfo.Name] = itemToAdd
+		updateCollection(currentCollection)
 		fmt.Printf("%s has been added to your collection.\n", itemToAdd.BasicInfo.Name)
-		currentCollection.FragrancesByName = generateAlphabetical(currentCollection)
-		currentCollection.FragrancesByHouse = generateAlphabeticalByBrand(currentCollection)
-		currentCollection.Notes = generateByNote(currentCollection)
-		writeOutCollection(MASTER, currentCollection)
+
 		return true
-	} else {
-		fmt.Println("This fragrance is already in your collection")
-		return false
 	}
+	fmt.Println("This fragrance is already in your collection")
+	return false
+
 }
 
 // RemoveFromCollection takes the name of the fragrance to remove, removes it from the collection and then regenerated the json file
-func RemoveFromCollection(name string) {
+func RemoveFromCollection() {
 	currentCollection := ReadInCollection(MASTER)
-
-	if collectionContainsFragrance(currentCollection, name) {
-		if len(currentCollection.MasterCollection) == 0 {
-			currentCollection.MasterCollection = make(map[string]FragranceItem)
-		}
-		delete(currentCollection.MasterCollection, name)
-		fmt.Printf("%s has been removed from your collection.\n", name)
-		currentCollection.FragrancesByName = generateAlphabetical(currentCollection)
-		currentCollection.FragrancesByHouse = generateAlphabeticalByBrand(currentCollection)
-		currentCollection.Notes = generateByNote(currentCollection)
-		writeOutCollection(MASTER, currentCollection)
+	fmt.Println("Please type in the number of the fragrance you'd like to remove:")
+	
+	for i, v := range currentCollection.FragrancesByName {
+		fmt.Printf("%d -> %s by %s\n", i+1, v.Name, v.House)
+	}
+	fmt.Println(">")
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	if scanner.Err() != nil {
+		panic(scanner.Err())
+	}
+	inputAsInt, err := strconv.Atoi(scanner.Text())
+	if err != nil || inputAsInt <= 0 || inputAsInt > len(currentCollection.MasterCollection) {
+		os.Exit(0)
+	}
+	inputIndex := inputAsInt - 1
+	keyToRemove := currentCollection.FragrancesByName[inputIndex].Name
+	if collectionContainsFragrance(currentCollection, keyToRemove) {
+		delete(currentCollection.MasterCollection, keyToRemove)
+		updateCollection(currentCollection)
+		fmt.Printf("%s has been removed from your collection.\n", keyToRemove)
 	} else {
 		fmt.Println("This fragrance is not in your collection")
 	}
-
 }
 
 // ReadInCollection reads a file and outputs a FragranceCollection
@@ -91,6 +100,16 @@ func ReadInCollection(filePath string) FragranceCollection {
 	return currentCollection
 }
 
+func updateCollection(collection FragranceCollection) {
+	collection.FragrancesByName = generateAlphabetical(collection)
+	// for _, v := range collection.FragrancesByName {
+	// 	fmt.Println(v.Name)
+	// }
+	collection.FragrancesByHouse = generateAlphabeticalByBrand(collection)
+	collection.Notes = generateByNote(collection)
+	writeOutCollection(MASTER, collection)
+}
+
 func makeDir() {
 	if _, err := os.Stat(PATH); os.IsNotExist(err) {
 		err := os.Mkdir(PATH, os.FileMode(0522))
@@ -108,7 +127,7 @@ func makeMaster() {
 			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE")
 			os.Exit(0)
 		}
-		defer f.Close()
+		f.Close()
 		writeOutCollection(MASTER, *new(FragranceCollection))
 	}
 
@@ -130,23 +149,26 @@ func writeOutCollection(filePath string, currentCollection FragranceCollection) 
 
 func generateAlphabetical(collection FragranceCollection) []BasicInfo {
 
-	var alphabeticalSlice []BasicInfo
+	var names []string
 
-	for _, value := range collection.MasterCollection {
-		alphabeticalSlice = append(alphabeticalSlice, value.BasicInfo)
+	for k := range collection.MasterCollection {
+		names = append(names, k)
 	}
-	// Sort by name
-	sort.Slice(alphabeticalSlice, func(i, j int) bool { return alphabeticalSlice[i].Name < alphabeticalSlice[j].Name })
 
-	return alphabeticalSlice
+	// Sort by name
+	sort.Slice(names, func(i, j int) bool { return names[i] < names[j] })
+
+	var alphabetical []BasicInfo
+	for _, s := range names {
+		alphabetical = append(alphabetical, collection.MasterCollection[s].BasicInfo)
+	}
+	return alphabetical
 }
 
 func generateAlphabeticalByBrand(collection FragranceCollection) []BasicInfo {
 	alphabeticalByBrand := collection.FragrancesByName
 	// Sort the list of items already sorted by name by their fragrance house, this results in the brands being sorted by name as well
-	sort.Slice(alphabeticalByBrand, func(i, j int) bool {
-		return alphabeticalByBrand[i].House < alphabeticalByBrand[j].House
-	})
+	sort.Slice(alphabeticalByBrand, func(i, j int) bool { return alphabeticalByBrand[i].House < alphabeticalByBrand[j].House })
 
 	return alphabeticalByBrand
 }

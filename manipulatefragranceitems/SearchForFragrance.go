@@ -101,7 +101,7 @@ func Search(url, nameToSearch string) {
 
 			if strings.ToLower(scanner.Text()) != "no" && strings.ToLower(scanner.Text()) != "n" {
 				selected, err := strconv.Atoi(scanner.Text())
-				if err != nil || selected <= 0 {
+				if err != nil || selected <= 0 || selected > len(searchResults) {
 					fmt.Println("INVALID INPUT")
 					os.Exit(0)
 				}
@@ -135,7 +135,6 @@ func SearchByHouse(house, name string) {
 					fmt.Println("\nSearching the house of " + houseFromWeb + "...")
 					Search(houseBaseURL+id, name)
 					houseFound = true
-					return
 				}
 			}
 		})

@@ -31,9 +31,7 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		//display.CollectionAlphabetical()
 		display.CollectionAlphabeticalByBrand()
-		//display.CollectionNotes()
 	},
 }
 var alphabetical bool
@@ -42,7 +40,6 @@ func init() {
 	rootCmd.AddCommand(mycollectionCmd)
 
 	// Here you will define your flags and configuration settings.
-	mycollectionCmd.Flags().BoolP("alpha", "a", true, "Show collection in alphabetical order by name")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// mycollectionCmd.PersistentFlags().String("foo", "", "A help for foo")
