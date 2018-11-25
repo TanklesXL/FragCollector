@@ -42,10 +42,14 @@ func getInfoFromHeader(header string) (string, string, string) {
 		name = strings.TrimSpace(strings.Split(header, ") (")[0] + ")")
 		house = strings.TrimSpace(strings.TrimPrefix(strings.Split(header, ")")[2], " by "))
 		releaseYear = strings.TrimSpace(strings.Split(strings.Split(header, ") (")[1], ")")[0])
-	} else {
+	} else if strings.Contains(header, "(") {
 		name = strings.TrimSpace(strings.Split(header, "(")[0])
 		house = strings.TrimSpace(strings.TrimPrefix(strings.Split(header, ")")[1], " by "))
 		releaseYear = strings.TrimSpace(strings.Split(strings.Split(header, "(")[1], ")")[0])
+	} else {
+		name = strings.TrimSpace(strings.Split(header, "by")[0])
+		house = strings.TrimSpace(strings.Split(header, "by")[1])
+		releaseYear = "N/A"
 	}
 	return name, house, releaseYear
 }
