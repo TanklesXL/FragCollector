@@ -93,7 +93,7 @@ func Search(url, nameToSearch string) {
 			}
 			scanner := bufio.NewScanner(os.Stdin)
 			fmt.Println("\nIf it was listed above, enter the number given to it, otherwise type no:")
-			fmt.Print(">")
+			fmt.Print("> ")
 			scanner.Scan()
 			if scanner.Err() != nil {
 				panic(scanner.Err())

@@ -55,7 +55,7 @@ func RemoveFromCollection() {
 	for i, v := range currentCollection.FragrancesByName {
 		fmt.Printf("%d -> %s by %s\n", i+1, v.Name, v.House)
 	}
-	fmt.Println(">")
+	fmt.Print("> ")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	if scanner.Err() != nil {
