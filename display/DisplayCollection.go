@@ -68,3 +68,42 @@ func CollectionNotes() {
 	}
 	fmt.Println("-------------------------------------------------------")
 }
+
+// FragranceInfo outputs the info for a specific fragrance
+func FragranceInfo() {
+	collection := readInCollection(mfi.MASTER)
+	fmt.Println("\n Which fragrance's info would you like")
+	fmt.Println("-------------------------------------------------------")
+	index := mfi.ShowOptionsAndGetNumericInput(collection) - 1
+	frag := collection.MasterCollection[collection.FragrancesByName[index].Name]
+	fmt.Printf("%s selected!\n", frag.BasicInfo.Name)
+	fmt.Println("\n-------------------FRAGRANCE INFO-------------------")
+	fmt.Printf("Name: %s\n", frag.BasicInfo.Name)
+	fmt.Printf("Fragrance House: %s\n", frag.BasicInfo.House)
+	fmt.Printf("Release Year: %s\n", frag.BasicInfo.ReleaseYear)
+
+	if len(frag.Pyramid.TopNotes) != 0 {
+		fmt.Println("Top Notes:")
+		for _, n := range frag.Pyramid.TopNotes {
+			fmt.Printf("\t%s\n", n)
+		}
+	}
+	if len(frag.Pyramid.HeartNotes) != 0 {
+		fmt.Println("\nHeart Notes:")
+		for _, n := range frag.Pyramid.HeartNotes {
+			fmt.Printf("\t%s\n", n)
+		}
+	}
+	if len(frag.Pyramid.BaseNotes) != 0 {
+		fmt.Println("\nBase Notes:")
+		for _, n := range frag.Pyramid.BaseNotes {
+			fmt.Printf("\t%s\n", n)
+		}
+	}
+	if len(frag.Pyramid.TopNotes) == 0 && len(frag.Pyramid.HeartNotes) == 0 && len(frag.Pyramid.BaseNotes) == 0 {
+		fmt.Println("\nScent Notes")
+		for _, n := range frag.FlatNotes {
+			fmt.Printf("\t%s\n", n)
+		}
+	}
+}

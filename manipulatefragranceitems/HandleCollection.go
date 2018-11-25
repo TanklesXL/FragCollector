@@ -51,20 +51,7 @@ func AddToCollection(url string) bool {
 func RemoveFromCollection() {
 	currentCollection := ReadInCollection(MASTER)
 	fmt.Println("Please type in the number of the fragrance you'd like to remove:")
-	
-	for i, v := range currentCollection.FragrancesByName {
-		fmt.Printf("%d -> %s by %s\n", i+1, v.Name, v.House)
-	}
-	fmt.Print("> ")
-	scanner := bufio.NewScanner(os.Stdin)
-	scanner.Scan()
-	if scanner.Err() != nil {
-		panic(scanner.Err())
-	}
-	inputAsInt, err := strconv.Atoi(scanner.Text())
-	if err != nil || inputAsInt <= 0 || inputAsInt > len(currentCollection.MasterCollection) {
-		os.Exit(0)
-	}
+	inputAsInt := ShowOptionsAndGetNumericInput(currentCollection)
 	inputIndex := inputAsInt - 1
 	keyToRemove := currentCollection.FragrancesByName[inputIndex].Name
 	if collectionContainsFragrance(currentCollection, keyToRemove) {
@@ -98,6 +85,28 @@ func ReadInCollection(filePath string) FragranceCollection {
 	json.Unmarshal(byteValue, &currentCollection)
 
 	return currentCollection
+}
+
+// ShowOptionsAndGetNumericInput displays the fragrances in the collection and gets the users selection
+func ShowOptionsAndGetNumericInput(collection FragranceCollection) int {
+	max := len(collection.MasterCollection)
+	for i, v := range collection.FragrancesByName {
+		fmt.Printf("%d -> %s by %s\n", i+1, v.Name, v.House)
+	}
+	fmt.Print("> ")
+
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	if scanner.Err() != nil {
+		fmt.Println("INVALID INPUT")
+		os.Exit(0)
+	}
+	inputAsInt, err := strconv.Atoi(scanner.Text())
+	if err != nil || inputAsInt <= 0 || inputAsInt > max {
+		fmt.Println("INVALID INPUT")
+		os.Exit(0)
+	}
+	return inputAsInt
 }
 
 func updateCollection(collection FragranceCollection) {
