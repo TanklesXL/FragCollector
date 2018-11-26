@@ -2,8 +2,11 @@ package display
 
 import (
 	mfi "FragCollector/manipulatefragranceitems"
+	"bufio"
 	"fmt"
+	"os"
 	"sort"
+	"strconv"
 )
 
 var readInCollection = mfi.ReadInCollection
@@ -66,6 +69,45 @@ func CollectionNotes() {
 			fmt.Printf("\t%s by %s \n", frag.Name, frag.House)
 		}
 	}
+	fmt.Println("-------------------------------------------------------")
+}
+
+// SingleNote displays the fragrances listed for a single chosen scent note
+func SingleNote() {
+	notesMap := readInCollection(mfi.MASTER).Notes
+	var noteList []string
+	for note := range notesMap {
+		noteList = append(noteList, note)
+	}
+
+	max := len(noteList)
+
+	sort.Slice(noteList, func(i, j int) bool { return noteList[i] < noteList[j] })
+	fmt.Println("Please type in the number corresponding to your selection:")
+	for i, n := range noteList {
+		fmt.Printf("%d\t-> %s (%d)\n", i+1, n, len(notesMap[n]))
+	}
+	fmt.Printf("> ")
+
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	if scanner.Err() != nil {
+		fmt.Println("INVALID INPUT")
+		os.Exit(0)
+	}
+	inputAsInt, err := strconv.Atoi(scanner.Text())
+	if err != nil || inputAsInt <= 0 || inputAsInt > max {
+		fmt.Println("INVALID INPUT")
+		os.Exit(0)
+	}
+
+	index := inputAsInt - 1
+
+	fmt.Println("\nFragrances containing " + noteList[index] + ":")
+	for _, frag := range notesMap[noteList[index]] {
+		fmt.Println(frag.Name + " by " + frag.House)
+	}
+
 	fmt.Println("-------------------------------------------------------")
 }
 

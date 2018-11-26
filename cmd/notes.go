@@ -30,21 +30,20 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		display.CollectionNotes()
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if asList, err := cmd.Flags().GetBool("list"); asList {
+			if err != nil {
+				return err
+			}
+			display.CollectionNotes()
+		} else {
+			display.SingleNote()
+		}
+		return nil
 	},
 }
 
 func init() {
 	mycollectionCmd.AddCommand(notesCmd)
-
-	// Here you will define your flags and configuration settings.
-
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// notesCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// notesCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	notesCmd.Flags().BoolP("list", "l", false, "Display all scent notes and the fragrances that contain them.")
 }

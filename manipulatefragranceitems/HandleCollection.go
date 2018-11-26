@@ -39,7 +39,6 @@ func AddToCollection(url string) bool {
 		currentCollection.MasterCollection[itemToAdd.BasicInfo.Name] = itemToAdd
 		updateCollection(currentCollection)
 		fmt.Printf("%s has been added to your collection.\n", itemToAdd.BasicInfo.Name)
-
 		return true
 	}
 	fmt.Println("This fragrance is already in your collection")
@@ -111,9 +110,6 @@ func ShowOptionsAndGetNumericInput(collection FragranceCollection) int {
 
 func updateCollection(collection FragranceCollection) {
 	collection.FragrancesByName = generateAlphabetical(collection)
-	// for _, v := range collection.FragrancesByName {
-	// 	fmt.Println(v.Name)
-	// }
 	collection.FragrancesByHouse = generateAlphabeticalByBrand(collection)
 	collection.Notes = generateByNote(collection)
 	writeOutCollection(MASTER, collection)
@@ -157,20 +153,12 @@ func writeOutCollection(filePath string, currentCollection FragranceCollection) 
 }
 
 func generateAlphabetical(collection FragranceCollection) []BasicInfo {
-
-	var names []string
-
-	for k := range collection.MasterCollection {
-		names = append(names, k)
-	}
-
-	// Sort by name
-	sort.Slice(names, func(i, j int) bool { return names[i] < names[j] })
-
 	var alphabetical []BasicInfo
-	for _, s := range names {
-		alphabetical = append(alphabetical, collection.MasterCollection[s].BasicInfo)
+	for _, v := range collection.MasterCollection {
+		alphabetical = append(alphabetical, v.BasicInfo)
 	}
+	// Sort by name
+	sort.Slice(alphabetical, func(i, j int) bool { return alphabetical[i].Name < alphabetical[j].Name })
 	return alphabetical
 }
 
