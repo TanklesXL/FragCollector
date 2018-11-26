@@ -172,18 +172,11 @@ func generateAlphabetical(collection FragranceCollection) []BasicInfo {
 
 func generateAlphabeticalByBrand(collection FragranceCollection) []BasicInfo {
 	var alphabeticalByBrand []BasicInfo
-	for _, info := range collection.FragrancesByName {
-		var infoCopy BasicInfo
-		infoCopy.Name = info.Name
-		infoCopy.House = info.House
-		infoCopy.ReleaseYear = info.ReleaseYear
-
-		alphabeticalByBrand = append(alphabeticalByBrand, infoCopy)
+	for _, v := range collection.MasterCollection {
+		alphabeticalByBrand = append(alphabeticalByBrand, v.BasicInfo)
 	}
-
-	// Sort the list of items already sorted by name by their fragrance house, this results in the brands being sorted by name as well
+	sort.Slice(alphabeticalByBrand, func(i, j int) bool { return alphabeticalByBrand[i].Name < alphabeticalByBrand[j].Name })
 	sort.Slice(alphabeticalByBrand, func(i, j int) bool { return alphabeticalByBrand[i].House < alphabeticalByBrand[j].House })
-
 	return alphabeticalByBrand
 }
 
