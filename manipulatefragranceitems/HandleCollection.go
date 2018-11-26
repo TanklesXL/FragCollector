@@ -108,6 +108,12 @@ func ShowOptionsAndGetNumericInput(collection FragranceCollection) int {
 	return inputAsInt
 }
 
+// ManualUpdate updates the rest of the json file when called, for example if someone were to manually add something to the file
+func ManualUpdate() {
+	collection := ReadInCollection(MASTER)
+	updateCollection(collection)
+}
+
 func updateCollection(collection FragranceCollection) {
 	var newCollection FragranceCollection
 	newCollection.MasterCollection = collection.MasterCollection
