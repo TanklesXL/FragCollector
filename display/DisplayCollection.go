@@ -112,7 +112,7 @@ func SingleNote() {
 // FragranceInfo outputs the info for a specific fragrance
 func FragranceInfo() {
 	collection := readInCollection(mfi.MASTER)
-	fmt.Println("\n Which fragrance's info would you like")
+	fmt.Println("\nWhich fragrance's info would you like")
 	fmt.Println("-------------------------------------------------------")
 	index := mfi.ShowOptionsAndGetNumericInput(collection) - 1
 	frag := collection.MasterCollection[collection.FragrancesByName[index].Name]

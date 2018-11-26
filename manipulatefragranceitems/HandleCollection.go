@@ -161,8 +161,6 @@ func generateAlphabetical(collection FragranceCollection) []BasicInfo {
 	}
 	// Sort by name
 	sort.Slice(alphabetical, func(i, j int) bool { return alphabetical[i].Name < alphabetical[j].Name })
-
-	fmt.Printf("%v\n", alphabetical)
 	return alphabetical
 }
 
