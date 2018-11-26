@@ -8,7 +8,7 @@ Because all fragrance information is scraped from the directory on www.basenotes
 
 ## Quick Start Guide:
 
-### Step 0 (if you have Go installed) get and install the application: 
+### If you have Go installed, go get and go install the application: 
 
 ```
 go get github.com/TanklesXL/FragCollector
@@ -20,9 +20,7 @@ This is as simple as using "cd" to get into the FragCollector folder and calling
 go install
 ```
 
- ### Step 1: Adding fragrances to your collection
-
-
+ ### Adding fragrances to your collection
 
 Fragrances can be added to your collection via their name or the url for their entry in the Basenotes directory. Add requires the --name/-n flag (--brand/-b is also available to improve the search, see below), and url requires the --url/-u flag.
 
@@ -38,4 +36,29 @@ FragCollector add -n Aventus
 
 #### To search by fragrance house and by name
 
-If you would like to be more specific with your search (and thus more likely to get the correct search result), you can use the -
+If you would like to be more specific with your search (and thus more likely to get the correct search result), you can use the --name/-n and --brand/-b flags together to make it easier to narrow down the search, this method  searches only through the list of fragrances made by the fragrance house you're asking it to search through. Using the same example as above:
+
+```
+FragCollector add -n Aventus -b Creed
+```
+
+#### To search by URL
+
+You simply need to use the --url/-u flag followed by the URL to the webpage:
+
+```
+FragCollector add -u http://www.basenotes.net/ID26131702.html
+```
+
+### Removing fragrances from your collection:
+
+This is done by calling:
+
+```
+FragCollector remove
+```
+
+You will then be shown your collection and asked to select which fragrance to remove, this is done by typing in the number assigned to the fragrance and hitting enter.
+
+### How to view your collection
+

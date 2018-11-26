@@ -16,8 +16,6 @@ func CollectionAlphabetical() {
 
 	//Read the collection from the json file
 	collection := readInCollection(mfi.MASTER)
-
-	// output the collection in alphabetical order
 	fmt.Println("\nHere is your collection in alphabetical order by name")
 	fmt.Println("-------------------------------------------------------")
 	for i, f := range collection.FragrancesByName {
@@ -83,7 +81,7 @@ func SingleNote() {
 	max := len(noteList)
 
 	sort.Slice(noteList, func(i, j int) bool { return noteList[i] < noteList[j] })
-	fmt.Println("Please type in the number corresponding to your selection:")
+	fmt.Println("\nPlease type in the number corresponding to your selection:")
 	for i, n := range noteList {
 		fmt.Printf("%d\t-> %s (%d)\n", i+1, n, len(notesMap[n]))
 	}
