@@ -109,10 +109,12 @@ func ShowOptionsAndGetNumericInput(collection FragranceCollection) int {
 }
 
 func updateCollection(collection FragranceCollection) {
-	collection.FragrancesByName = generateAlphabetical(collection)
-	collection.FragrancesByHouse = generateAlphabeticalByBrand(collection)
-	collection.Notes = generateByNote(collection)
-	writeOutCollection(MASTER, collection)
+	var newCollection FragranceCollection
+	newCollection.MasterCollection = collection.MasterCollection
+	newCollection.FragrancesByName = generateAlphabetical(newCollection)
+	newCollection.FragrancesByHouse = generateAlphabeticalByBrand(newCollection)
+	newCollection.Notes = generateByNote(newCollection)
+	writeOutCollection(MASTER, newCollection)
 }
 
 func makeDir() {
@@ -159,6 +161,7 @@ func generateAlphabetical(collection FragranceCollection) []BasicInfo {
 	}
 	// Sort by name
 	sort.Slice(alphabetical, func(i, j int) bool { return alphabetical[i].Name < alphabetical[j].Name })
+	fmt.Printf("%v\n", alphabetical)
 	return alphabetical
 }
 

@@ -92,22 +92,20 @@ func Search(url, nameToSearch string) {
 				fmt.Printf("%d: %s by %s\n", i+1, r.Name, r.Info)
 			}
 			scanner := bufio.NewScanner(os.Stdin)
-			fmt.Println("\nIf it was listed above, enter the number given to it, otherwise type no:")
+			fmt.Println("\nIf it was listed above, enter the number given to it:")
 			fmt.Print("> ")
 			scanner.Scan()
 			if scanner.Err() != nil {
-				panic(scanner.Err())
+				fmt.Println("INVALID INPUT")
+				os.Exit(0)
 			}
-
-			if strings.ToLower(scanner.Text()) != "no" && strings.ToLower(scanner.Text()) != "n" {
-				selected, err := strconv.Atoi(scanner.Text())
-				if err != nil || selected <= 0 || selected > len(searchResults) {
-					fmt.Println("INVALID INPUT")
-					os.Exit(0)
-				}
-				matchResult := searchResults[selected-1]
-				AddToCollection(matchResult.URL)
+			selected, err := strconv.Atoi(scanner.Text())
+			if err != nil || selected <= 0 || selected > len(searchResults) {
+				fmt.Println("INVALID INPUT")
+				os.Exit(0)
 			}
+			matchResult := searchResults[selected-1]
+			AddToCollection(matchResult.URL)
 		} else {
 			fmt.Println("\nNo search results found")
 		}
