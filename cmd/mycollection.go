@@ -1,4 +1,4 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2018 Robert Attard <robert.attard@mail.mcgill.ca>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,13 +23,9 @@ import (
 // mycollectionCmd represents the mycollection command
 var mycollectionCmd = &cobra.Command{
 	Use:   "mycollection",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Visualize your fragrance collection",
+	Long: `This command by default displays the collection in alphabetical order by fragrance house.
+Use the subcommands alpha, and notes to see the collection differently`,
 	Run: func(cmd *cobra.Command, args []string) {
 		display.CollectionAlphabeticalByBrand()
 	},
@@ -38,13 +34,4 @@ var alphabetical bool
 
 func init() {
 	rootCmd.AddCommand(mycollectionCmd)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports Persistent Flags which will work for this command
-	// and all subcommands, e.g.:
-	// mycollectionCmd.PersistentFlags().String("foo", "", "A help for foo")
-
-	// Cobra supports local flags which will only run when this command
-	// is called directly, e.g.:
-	// mycollectionCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }

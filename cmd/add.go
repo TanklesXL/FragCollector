@@ -1,4 +1,4 @@
-// Copyright © 2018 NAME HERE <EMAIL ADDRESS>
+// Copyright © 2018 Robert Attard <robert.attard@mail.mcgill.ca>
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,10 @@ import (
 var addCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Add a fragrance to your collection",
-	Long:  `Find a fragrance from the BaseNotes database and add it (along with all of its relevant information) to your collection`,
+	Long: `Find a fragrance from the BaseNotes database and add it (along with all of its relevant information) to your collection.
+the add command needs to be used with flags followed by the necessary information.
+The flags are: --url/-u, --name/-n , or a combination of --name/-n and the --brand/-b flags, 
+please see the readme for more info.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if url != "" {
 			mfi.AddToCollection(url)
