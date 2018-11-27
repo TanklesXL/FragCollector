@@ -37,7 +37,7 @@ func CollectionAlphabeticalByBrand() {
 	fmt.Println("\nHere is your collection in alphabetical order by brand")
 	fmt.Println("-------------------------------------------------------")
 
-	for _, f := range collection.FragrancesByName {
+	for _, f := range collection.FragrancesByHouse {
 
 		if currentHouse == "" || f.House != currentHouse {
 			currentHouse = f.House
