@@ -11,7 +11,7 @@ import (
 // BuildFragranceItem receives a URL (from basenotes fragrance directory) and returns a FragranceItem with the corresponding information
 func BuildFragranceItem(url string) FragranceItem {
 	var fragrance FragranceItem
-
+	fragrance.Link = url
 	doc, err := goquery.NewDocument(url)
 	if err != nil {
 		fmt.Println("PROBLEM ACCESSING THE BASENOTES PAGE: " + url)
