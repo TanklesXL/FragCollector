@@ -13,7 +13,8 @@ type FragranceItem struct {
 	BasicInfo BasicInfo
 	FlatNotes []string
 	Pyramid   notesPyramid
-	Link	  string
+	Link      string
+	Blurb     string
 }
 
 // BasicInfo of a fragrance Item will contain only it's name, house and release year

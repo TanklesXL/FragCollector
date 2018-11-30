@@ -121,6 +121,7 @@ func FragranceInfo() {
 	fmt.Printf("Name: %s\n", frag.BasicInfo.Name)
 	fmt.Printf("Fragrance House: %s\n", frag.BasicInfo.House)
 	fmt.Printf("Release Year: %s\n", frag.BasicInfo.ReleaseYear)
+	fmt.Printf("\nAbout %s: \n\t%s\n", frag.BasicInfo.Name, frag.Blurb)
 
 	if len(frag.Pyramid.TopNotes) != 0 {
 		fmt.Println("Top Notes:")
@@ -146,4 +147,5 @@ func FragranceInfo() {
 			fmt.Printf("\t%s\n", n)
 		}
 	}
+	fmt.Printf("\nURL: %s\n", frag.Link)
 }
