@@ -18,11 +18,12 @@ type searchResult struct {
 	URL  string
 }
 
-//SearchByName will do a search on BaseNotes for the fragrance name inputted, if no exact match is found, a list of options will be given
-func SearchByName(name string) {
-	searchString := strings.Replace(name, " ", "+", -1)
-	url := "http://www.basenotes.net/fragrancedirectory/?search=" + searchString
-	Search(url, name)
+func newSearchResult(name, info, url string) *searchResult {
+	result := new(searchResult)
+	result.Name = name
+	result.Info = info
+	result.URL = url
+	return result
 }
 
 // Search goes through the search page on basenotes and tries to find a match, otherwise it gives the available options
@@ -142,12 +143,11 @@ func SearchByHouse(house, name string) {
 	}
 }
 
-func newSearchResult(name, info, url string) *searchResult {
-	result := new(searchResult)
-	result.Name = name
-	result.Info = info
-	result.URL = url
-	return result
+//SearchByName will do a search on BaseNotes for the fragrance name inputted, if no exact match is found, a list of options will be given
+func SearchByName(name string) {
+	searchString := strings.Replace(name, " ", "+", -1)
+	url := "http://www.basenotes.net/fragrancedirectory/?search=" + searchString
+	Search(url, name)
 }
 
 func shrinkString(s string) string {

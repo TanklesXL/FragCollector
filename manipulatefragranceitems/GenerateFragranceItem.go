@@ -89,6 +89,7 @@ func handlePyramidStructure(text string) ([]string, notesPyramid) {
 	pyramid := notesPyramid{topNotesSlice, heartNotesSlice, baseNotesSlice}
 	return flatList, pyramid
 }
+
 func trimSlices(slice []string) []string {
 	var output []string
 	for _, s := range slice {
