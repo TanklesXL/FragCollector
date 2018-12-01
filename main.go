@@ -16,6 +16,7 @@ package main
 
 import (
 	"FragCollector/cmd"
+	mfi "FragCollector/manipulatefragranceitems"
 )
 
 //pyr
@@ -27,5 +28,6 @@ const btf string = "http://www.basenotes.net/ID26147432.html"
 const pradaCandy string = "http://www.basenotes.net/ID26132465.html"
 
 func main() {
+	mfi.SetPath()
 	cmd.Execute()
 }

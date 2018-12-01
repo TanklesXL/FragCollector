@@ -6,26 +6,21 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"sort"
 	"strconv"
 )
 
 // PATH is the location of the directory where the jsons are stored
-const PATH string = "C:/Users/Robert/go/src/FragCollector/CollectionFile/"
+var PATH string
 
 // MASTER is the master collecion filepath, when an item is added, master is regenerated in alphabetical order
-const MASTER string = PATH + "Master.json"
-
-/*
-EXPORTED FUNCTIONS
-These are used by either a command or a display function
-*/
+var MASTER string
 
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
 func AddToCollection(url string) bool {
 
 	//ensure that the directory and master both exist, otherwise make them
-	makeDir()
 	makeMaster()
 
 	itemToAdd := BuildFragranceItem(url)
@@ -123,21 +118,29 @@ func updateCollection(collection FragranceCollection) {
 	writeOutCollection(MASTER, newCollection)
 }
 
-func makeDir() {
-	if _, err := os.Stat(PATH); os.IsNotExist(err) {
-		err := os.Mkdir(PATH, os.FileMode(0522))
-		if err != nil {
-			fmt.Println("UNABLE TO CREATE THE DIRECTORY")
-			os.Exit(0)
-		}
+// SetPath determines what the path should be based on the OS
+func SetPath() {
+	if runtime.GOOS == "windows" {
+		PATH = "C:\\Users\\Robert\\Documents\\FragCollector"
+		MASTER = PATH + "\\Master.json"
+	} else {
+		PATH = "$HOME/FragCollector"
+		MASTER = PATH + "/Master.json"
 	}
 }
 
 func makeMaster() {
+	if _, err := os.Stat(PATH); os.IsNotExist(err) {
+		err := os.Mkdir(PATH, os.FileMode(0522))
+		if err != nil {
+			fmt.Println("UNABLE TO CREATE THE DIRECTORY: " + err.Error())
+			os.Exit(0)
+		}
+	}
 	if _, err := os.Stat(MASTER); os.IsNotExist(err) {
 		f, err := os.Create(MASTER)
 		if err != nil {
-			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE")
+			fmt.Println("UNABLE TO CREATE THE MASTER JSON FILE: " + err.Error())
 			os.Exit(0)
 		}
 		f.Close()
