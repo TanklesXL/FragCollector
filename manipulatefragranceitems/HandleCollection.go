@@ -8,7 +8,6 @@ import (
 	"strconv"
 )
 
-
 // AddToCollection takes a url string and builds the corresponding fragrance item and adds it to the JSON
 func AddToCollection(url string) bool {
 
@@ -53,8 +52,9 @@ func generateAlphabeticalByBrand(collection FragranceCollection) []BasicInfo {
 	for _, v := range collection.MasterCollection {
 		alphabeticalByBrand = append(alphabeticalByBrand, v.BasicInfo)
 	}
-	sort.Slice(alphabeticalByBrand, func(i, j int) bool { return alphabeticalByBrand[i].Name < alphabeticalByBrand[j].Name })
-	sort.Slice(alphabeticalByBrand, func(i, j int) bool { return alphabeticalByBrand[i].House < alphabeticalByBrand[j].House })
+	sort.Slice(alphabeticalByBrand, func(i, j int) bool {
+		return ((alphabeticalByBrand[i].House == alphabeticalByBrand[j].House && alphabeticalByBrand[i].Name < alphabeticalByBrand[j].Name) || alphabeticalByBrand[i].House < alphabeticalByBrand[j].House)
+	})
 	return alphabeticalByBrand
 }
 
