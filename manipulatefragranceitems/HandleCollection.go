@@ -113,6 +113,32 @@ func ShowOptionsAndGetNumericInput(collection FragranceCollection) int {
 	return inputAsInt
 }
 
+// ShowOptionsByBrandAndGetNumericInput displays the fragrances by brand and get the selection
+func ShowOptionsByBrandAndGetNumericInput(collection FragranceCollection) int {
+	max := len(collection.MasterCollection)
+	var currentHouse string
+	for i, f := range collection.FragrancesByHouse {
+		if currentHouse == "" || f.House != currentHouse {
+			currentHouse = f.House
+			fmt.Printf("\n%s:\n", currentHouse)
+		}
+		fmt.Printf("\t%d->%s\n", i+1, f.Name)
+	}
+	fmt.Print("> ")
+
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	if scanner.Err() != nil {
+		fmt.Println("INVALID INPUT")
+		os.Exit(0)
+	}
+	inputAsInt, err := strconv.Atoi(scanner.Text())
+	if err != nil || inputAsInt <= 0 || inputAsInt > max {
+		fmt.Println("INVALID INPUT")
+		os.Exit(0)
+	}
+	return inputAsInt
+}
 func updateCollection(collection FragranceCollection) {
 	var newCollection FragranceCollection
 	newCollection.MasterCollection = collection.MasterCollection

@@ -38,6 +38,17 @@ func ReadInCollection(filePath string) FragranceCollection {
 	return currentCollection
 }
 
+// SetPath determines what the path should be based on the OS
+func SetPath() {
+	if runtime.GOOS == "windows" {
+		PATH = "C:\\Users\\Robert\\Documents\\FragCollector"
+		MASTER = PATH + "\\Master.json"
+	} else {
+		PATH = "$HOME/FragCollector"
+		MASTER = PATH + "/Master.json"
+	}
+}
+
 func makeMaster() {
 	if _, err := os.Stat(PATH); os.IsNotExist(err) {
 		err := os.Mkdir(PATH, os.FileMode(0522))
@@ -56,17 +67,6 @@ func makeMaster() {
 		writeOutCollection(MASTER, *new(FragranceCollection))
 	}
 
-}
-
-// SetPath determines what the path should be based on the OS
-func SetPath() {
-	if runtime.GOOS == "windows" {
-		PATH = "C:\\Users\\Robert\\Documents\\FragCollector"
-		MASTER = PATH + "\\Master.json"
-	} else {
-		PATH = "$HOME/FragCollector"
-		MASTER = PATH + "/Master.json"
-	}
 }
 
 func writeOutCollection(filePath string, currentCollection FragranceCollection) {

@@ -26,11 +26,20 @@ var infoCmd = &cobra.Command{
 	Short: "See the info about a fragrance in your collection",
 	Long: `Get all info about the fragrance of your choice stored in the system, 
 right now you can view its name, fragrance house, release year and scent note breakdown.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		display.FragranceInfo()
+	RunE: func(cmd *cobra.Command, args []string) error {
+		if asList, err := cmd.Flags().GetBool("list"); asList {
+			if err != nil {
+				return err
+			}
+			display.FragranceListInfo()
+		} else {
+			display.FragranceInfo()
+		}
+		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(infoCmd)
+	infoCmd.Flags().BoolP("list", "l", false, "Display the list of fragrances as an alpohabetical list.")
 }

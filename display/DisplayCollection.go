@@ -109,14 +109,29 @@ func SingleNote() {
 	fmt.Println("-------------------------------------------------------")
 }
 
-// FragranceInfo outputs the info for a specific fragrance
+// FragranceInfo outputs for the info for a specific fragrance
 func FragranceInfo() {
+	collection := readInCollection(mfi.MASTER)
+	fmt.Println("\nWhich fragrance's info would you like")
+	fmt.Println("-------------------------------------------------------")
+	index := mfi.ShowOptionsByBrandAndGetNumericInput(collection) - 1
+	frag := collection.MasterCollection[collection.FragrancesByHouse[index].Name]
+	fmt.Printf("%s selected!\n", frag.BasicInfo.Name)
+	printFragInfo(frag)
+}
+
+// FragranceListInfo outputs the info for a specific fragrance, chosen from a flat list
+func FragranceListInfo() {
 	collection := readInCollection(mfi.MASTER)
 	fmt.Println("\nWhich fragrance's info would you like")
 	fmt.Println("-------------------------------------------------------")
 	index := mfi.ShowOptionsAndGetNumericInput(collection) - 1
 	frag := collection.MasterCollection[collection.FragrancesByName[index].Name]
 	fmt.Printf("%s selected!\n", frag.BasicInfo.Name)
+	printFragInfo(frag)
+}
+
+func printFragInfo(frag mfi.FragranceItem) {
 	fmt.Println("\n-------------------FRAGRANCE INFO-------------------")
 	fmt.Printf("Name: %s\n", frag.BasicInfo.Name)
 	fmt.Printf("Fragrance House: %s\n", frag.BasicInfo.House)
