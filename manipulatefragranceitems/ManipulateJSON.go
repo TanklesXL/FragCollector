@@ -7,7 +7,6 @@ import (
 	"os"
 	"os/user"
 	"runtime"
-	"strings"
 )
 
 // PATH is the location of the directory where the jsons are stored
@@ -44,11 +43,10 @@ func ReadInCollection(filePath string) FragranceCollection {
 func SetPath() {
 	userInfo, err := user.Current()
 	if err != nil {
-		fmt.Println("Unable to get the Username")
+		fmt.Println("Unable to get your user info")
 	}
 	if runtime.GOOS == "windows" {
-		name := strings.Split(userInfo.Username, "\\")[1]
-		PATH = "C:\\Users\\" + name + "\\Documents\\FragCollector"
+		PATH = userInfo.HomeDir + "\\Documents\\FragCollector"
 		MASTER = PATH + "\\Master.json"
 	} else {
 		PATH = userInfo.HomeDir + "/FragCollector"

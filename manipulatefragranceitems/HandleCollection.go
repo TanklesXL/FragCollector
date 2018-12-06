@@ -122,7 +122,7 @@ func ShowOptionsByBrandAndGetNumericInput(collection FragranceCollection) int {
 			currentHouse = f.House
 			fmt.Printf("\n%s:\n", currentHouse)
 		}
-		fmt.Printf("\t%d->%s\n", i+1, f.Name)
+		fmt.Printf("\t%d-> %s\n", i+1, f.Name)
 	}
 	fmt.Print("> ")
 
