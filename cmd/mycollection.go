@@ -15,7 +15,7 @@
 package cmd
 
 import (
-	"FragCollector/display"
+	"github.com/TanklesXL/FragCollector/display"
 
 	"github.com/spf13/cobra"
 )

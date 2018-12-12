@@ -1,12 +1,13 @@
 package display
 
 import (
-	mfi "FragCollector/manipulatefragranceitems"
 	"bufio"
 	"fmt"
 	"os"
 	"sort"
 	"strconv"
+
+	mfi "github.com/TanklesXL/FragCollector/manipulatefragranceitems"
 )
 
 var readInCollection = mfi.ReadInCollection

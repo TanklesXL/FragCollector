@@ -15,8 +15,9 @@
 package cmd
 
 import (
-	mfi "FragCollector/manipulatefragranceitems"
 	"fmt"
+
+	mfi "github.com/TanklesXL/FragCollector/manipulatefragranceitems"
 
 	"github.com/spf13/cobra"
 )

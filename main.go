@@ -15,8 +15,8 @@
 package main
 
 import (
-	"FragCollector/cmd"
-	mfi "FragCollector/manipulatefragranceitems"
+	"github.com/TanklesXL/FragCollector/cmd"
+	mfi "github.com/TanklesXL/FragCollector/manipulatefragranceitems"
 )
 
 //pyr
