@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/TanklesXL/FragCollector.svg?style=svg)](https://circleci.com/gh/TanklesXL/FragCollector)
+
 # FragCollector: 
 
 A simple and convenient CLI written in Go for managing your fragrance collection. 
