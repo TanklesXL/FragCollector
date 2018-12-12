@@ -20,7 +20,7 @@ func BuildFragranceItem(url string) FragranceItem {
 
 	header := doc.Find(".fragranceheading").Text()
 	//Get the Name, release year and house
-	fragrance.BasicInfo.Name, fragrance.BasicInfo.House, fragrance.BasicInfo.ReleaseYear = getInfoFromHeader(header)
+	fragrance.Name, fragrance.House, fragrance.ReleaseYear = getInfoFromHeader(header)
 
 	//Get the blurb
 	fragrance.Blurb = strings.TrimSpace(doc.Find(".diraboutblurb").Text())
