@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/TanklesXL/FragCollector.svg?style=svg)](https://circleci.com/gh/TanklesXL/FragCollector)
+[![CircleCI](https://circleci.com/gh/TanklesXL/FragCollector/tree/master.svg?style=svg)](https://circleci.com/gh/TanklesXL/FragCollector/tree/master)
 
 # FragCollector: 
 
