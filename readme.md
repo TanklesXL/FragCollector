@@ -44,7 +44,7 @@ FragCollector add -n Aventus -b Creed
 
 #### To search by URL
 
-You simply need to use the --url/-u flag followed by the URL to the webpage:
+You simply need to use the --url/-u flag followed by the URL to the webpage. To add Aventus using this method you would do the following:
 
 ```
 FragCollector add -u http://www.basenotes.net/ID26131702.html
@@ -61,4 +61,46 @@ FragCollector remove
 You will then be shown your collection and asked to select which fragrance to remove, this is done by typing in the number assigned to the fragrance and hitting enter.
 
 ### How to view your collection
+
+There are a few ways to view your collection, they are as follows:
+
+1. In alphabetical order by brand:
+
+   ```
+   FragCollector mycollection
+   ```
+
+2. In alphabetical order solely by name:
+
+   ```
+   FragCollector mycollection alpha
+   ```
+
+3. In order by the fragrance notes contained in your collection:
+
+   ```
+   FragCollector mycollection notes
+   ```
+
+4. In order by fragrance note but with every group expanded (use notes with --list/-l:
+
+   ```
+   FragCollector mycollection notes -l
+   ```
+
+### Getting a Fragrance's Info
+
+By using FragCollector, you can see some useful information about a fragrance in your collection using the command:
+
+```
+FragCollector info
+```
+
+This command will show you your collection in alphabetical order by brand (the same as doing *FragCollector mycollection*) and prompt you to select the one you would like to expand by typing in the number corresponding to it.
+
+Just like for viewing your collection as a flat list in alphabetical order, this is also an option when displaying a fragrance's info, for this use the --list/-l flag like so:
+
+```
+FragCollector info -l
+```
 
