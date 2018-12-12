@@ -22,9 +22,9 @@ func AddToCollection(url string) bool {
 		if len(currentCollection.MasterCollection) == 0 {
 			currentCollection.MasterCollection = make(map[string]FragranceItem)
 		}
-		currentCollection.MasterCollection[itemToAdd.BasicInfo.Name] = itemToAdd
+		currentCollection.MasterCollection[itemToAdd.Name] = itemToAdd
 		updateCollection(currentCollection)
-		fmt.Printf("%s has been added to your collection.\n", itemToAdd.BasicInfo.Name)
+		fmt.Printf("%s has been added to your collection.\n", itemToAdd.Name)
 		return true
 	}
 	fmt.Println("This fragrance is already in your collection")

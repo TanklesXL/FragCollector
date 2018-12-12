@@ -10,7 +10,7 @@ type FragranceCollection struct {
 
 // FragranceItem type contains fragrance info and all notes in a pyramid (if applicable) and flat list of scent notes
 type FragranceItem struct {
-	BasicInfo BasicInfo
+	BasicInfo
 	FlatNotes []string
 	Pyramid   notesPyramid
 	Link      string

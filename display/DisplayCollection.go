@@ -117,7 +117,7 @@ func FragranceInfo() {
 	fmt.Println("-------------------------------------------------------")
 	index := mfi.ShowOptionsByBrandAndGetNumericInput(collection) - 1
 	frag := collection.MasterCollection[collection.FragrancesByHouse[index].Name]
-	fmt.Printf("%s selected!\n", frag.BasicInfo.Name)
+	fmt.Printf("%s selected!\n", frag.Name)
 	printFragInfo(frag)
 }
 
@@ -128,16 +128,16 @@ func FragranceListInfo() {
 	fmt.Println("-------------------------------------------------------")
 	index := mfi.ShowOptionsAndGetNumericInput(collection) - 1
 	frag := collection.MasterCollection[collection.FragrancesByName[index].Name]
-	fmt.Printf("%s selected!\n", frag.BasicInfo.Name)
+	fmt.Printf("%s selected!\n", frag.Name)
 	printFragInfo(frag)
 }
 
 func printFragInfo(frag mfi.FragranceItem) {
 	fmt.Println("\n-------------------FRAGRANCE INFO-------------------")
-	fmt.Printf("Name: %s\n", frag.BasicInfo.Name)
-	fmt.Printf("Fragrance House: %s\n", frag.BasicInfo.House)
-	fmt.Printf("Release Year: %s\n", frag.BasicInfo.ReleaseYear)
-	fmt.Printf("\nAbout %s: \n\t%s\n", frag.BasicInfo.Name, frag.Blurb)
+	fmt.Printf("Name: %s\n", frag.Name)
+	fmt.Printf("Fragrance House: %s\n", frag.House)
+	fmt.Printf("Release Year: %s\n", frag.ReleaseYear)
+	fmt.Printf("\nAbout %s: \n\t%s\n", frag.Name, frag.Blurb)
 
 	if len(frag.Pyramid.TopNotes) != 0 {
 		fmt.Println("Top Notes:")
