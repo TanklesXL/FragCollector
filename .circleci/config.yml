@@ -11,25 +11,30 @@ jobs:
       - checkout
       - run: go get -v -t -d ./...
       - run: go test -v ./...
+      
   deploy:
     docker:
       - image: circleci/golang:1.9
     working_directory: /go/src/github.com/TanklesXL/FragCollector
     steps:
       - checkout
-      - go get -v -t -d ./...
+      - add_ssh_keys
+      - run: go get -u github.com/inconshreveable/mousetrap
+      - run: go get -u github.com/mitchellh/gox
+      - run: go get -u github.com/tcnksm/ghr
+      - run: go get -u github.com/stevenmatthewt/semantics
+      - run: go get -v -t -d ./...
       - run:
-          name:cross compile
+          name: cross compile
           command: |
             gox -os="linux darwin windows" -arch="amd64" -output="dist/FragCollector_{{.OS}}_{{.Arch}}"
             cd dist/ && gzip *
-      - add_ssh_keys
       - run:
-          name:create release
+          name: create release
           command: |
             tag=$(semantics --output-tag)
             if ["$tag"]; then
-              ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace $tag dist/
+                ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace $tag dist/
             else
                 echo "The commit message(s) did not indicate a major/minor/patch version."
             fi
@@ -37,11 +42,10 @@ workflows:
   version: 2
   build-deploy:
     jobs:
-      -build
-      -deploy:
-        requires:
-          -build
-        filters:
-          branches:
-            only: master
-            
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
