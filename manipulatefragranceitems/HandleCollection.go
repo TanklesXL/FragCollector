@@ -78,6 +78,10 @@ func ManualUpdate() {
 // RemoveFromCollection takes the name of the fragrance to remove, removes it from the collection and then regenerated the json file
 func RemoveFromCollection() {
 	currentCollection := ReadInCollection(MASTER)
+	if len(currentCollection.MasterCollection) == 0 {
+		fmt.Println("\nYour collection is empty.")
+		os.Exit(0)
+	}
 	fmt.Println("Please type in the number of the fragrance you'd like to remove:")
 	inputAsInt := ShowOptionsAndGetNumericInput(currentCollection)
 	inputIndex := inputAsInt - 1
