@@ -56,7 +56,7 @@ func SetPath() {
 
 func makeMaster() {
 	if _, err := os.Stat(PATH); os.IsNotExist(err) {
-		err := os.Mkdir(PATH, os.FileMode(0522))
+		err := os.Mkdir(PATH, os.FileMode(0777))
 		if err != nil {
 			fmt.Println("UNABLE TO CREATE THE DIRECTORY: " + err.Error())
 			os.Exit(0)
@@ -75,8 +75,8 @@ func makeMaster() {
 }
 
 func writeOutCollection(filePath string, currentCollection FragranceCollection) {
-	json, _ := json.Marshal(currentCollection)
-	err := ioutil.WriteFile(filePath, json, 0644)
+	j, _ := json.Marshal(currentCollection)
+	err := ioutil.WriteFile(filePath, j, 0644)
 	if err != nil {
 		fmt.Println("PROBLEM WRITING TO THE JSON FILE: " + filePath)
 		os.Exit(0)
